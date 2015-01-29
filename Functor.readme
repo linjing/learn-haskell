@@ -1,0 +1,25 @@
+
+
+Functor => Applicative => Monad
+
+fmap :: (Functor f) => (a -> b) -> f a -> f b
+(<$>) :: Functor f => (a -> b) -> f a -> f b
+
+pure :: Applicative f => a -> f a
+(<*>) :: (Applicative f) => f (a -> b) -> f a -> f b
+    理解f(a->b), 看成f c, 但c是一个函数， 怎样的函数呢， 是一个 a->b 的函数
+        但函数只能返回 b, 不能是失败
+
+(>>=) :: Monad m => m a -> (a -> m b) -> m b
+monad 不过就是支持 >>= 操作的 applicative functors。>>= 我们称呼他为 bind
+    Maybe 是一个 Monad
+
+Prelude Control.Applicative>  (++"!") <$> (Just "A")
+Just "A!"
+Prelude Control.Applicative> Just (++"!") <*> (Just "A")
+Just "A!"
+Prelude Control.Monad> Just "A" >>= (\a -> Just (a ++ "!"))
+Just "A!"
+Prelude Control.Monad> Just "A" >>= (\a -> return (a ++ "!"))
+Just "A!"
+
